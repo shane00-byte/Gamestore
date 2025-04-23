@@ -1,0 +1,271 @@
+import mysql.connector as mysql
+
+def display_from_game():
+    try:
+        con = mysql.connect(host="localhost", user="root", port="3306", password="1234", database="game")
+        mycursor = con.cursor()
+        mycursor.execute("SELECT * FROM gamestore")
+        data = mycursor.fetchall()
+
+        print("-" * 77)
+        print(f"{'product_id':<15}{'product_name':<20}{'company':<15}{'type':<10}{'category':<15}{'price':<5}")
+        print("-" * 77)
+
+        for record in data:
+            print(f"{record[0]:<15}{record[1]:<20}{record[2]:<15}{record[3]:<10}{record[4]:<15}{record[5]:<5}")
+
+        print("-" * 77)
+    except mysql.Error as err:
+        print(f"Error: {err}")
+    finally:
+        if con.is_connected():
+            mycursor.close()
+            con.close()
+
+def display_from_console():
+    try:
+        con = mysql.connect(host="localhost", user="root", port="3306", password="1234", database="game")
+        mycursor = con.cursor()
+        mycursor.execute("SELECT * FROM console")
+        data = mycursor.fetchall()
+
+        print("-" * 77)
+        print(f"{'product_id':<15}{'product_name':<20}{'features':<25}{'colours':<15}{'company':<15}{'price':<5}")
+        print("-" * 77)
+
+        for record in data:
+            print(f"{record[0]:<15}{record[1]:<20}{record[2]:<25}{record[3]:<15}{record[4]:<15}{record[5]:<5}")
+
+        print("-" * 77)
+    except mysql.Error as err:
+        print(f"Error: {err}")
+    finally:
+        if con.is_connected():
+            mycursor.close()
+            con.close()
+
+def insert_into_game():
+    try:
+        con = mysql.connect(host="localhost", user="root", port="3306", password="1234", database="game")
+        mycursor = con.cursor()
+
+        a = input("Enter product_id: ")
+        b = input("Enter product_name: ")
+        c = input("Enter company: ")
+        d = input("Enter type: ")
+        e = input("Enter category: ")
+        f = int(input("Enter price: "))
+
+        query = "INSERT INTO gamestore VALUES (%s, %s, %s, %s, %s, %s)"
+        data = (a, b, c, d, e, f)
+        mycursor.execute(query, data)
+
+        con.commit()
+        print("RECORD INSERTED SUCCESSFULLY!")
+    except mysql.Error as err:
+        print(f"Error: {err}")
+        con.rollback()
+    finally:
+        if con.is_connected():
+            mycursor.close()
+            con.close()
+
+def insert_into_console():
+    try:
+        con = mysql.connect(host="localhost", user="root", port="3306", password="1234", database="game")
+        mycursor = con.cursor()
+
+        a = input("Enter product_id: ")
+        b = input("Enter product_name: ")
+        c = input("Enter features: ")
+        d = input("Enter colours available: ")
+        e = input("Enter company: ")
+        f = int(input("Enter price: "))
+
+        query = "INSERT INTO console VALUES (%s, %s, %s, %s, %s, %s)"
+        data = (a, b, c, d, e, f)
+        mycursor.execute(query, data)
+
+        con.commit()
+        print("RECORD INSERTED SUCCESSFULLY!")
+    except mysql.Error as err:
+        print(f"Error: {err}")
+        con.rollback()
+    finally:
+        if con.is_connected():
+            mycursor.close()
+            con.close()
+
+def delete_from_game():
+    try:
+        con = mysql.connect(host="localhost", user="root", port="3306", password="1234", database="game")
+        mycursor = con.cursor()
+
+        a = input("Enter product_id to delete record: ")
+        query = "DELETE FROM gamestore WHERE product_id = %s"
+        data = (a,)
+        mycursor.execute(query, data)
+
+        con.commit()
+        print("RECORD DELETED SUCCESSFULLY!")
+    except mysql.Error as err:
+        print(f"Error: {err}")
+        con.rollback()
+    finally:
+        if con.is_connected():
+            mycursor.close()
+            con.close()
+
+def delete_from_console():
+    try:
+        con = mysql.connect(host="localhost", user="root", port="3306", password="1234", database="game")
+        mycursor = con.cursor()
+
+        a = input("Enter product_id to delete record: ")
+        query = "DELETE FROM console WHERE product_id = %s"
+        data = (a,)
+        mycursor.execute(query, data)
+
+        con.commit()
+        print("RECORD DELETED SUCCESSFULLY!")
+    except mysql.Error as err:
+        print(f"Error: {err}")
+        con.rollback()
+    finally:
+        if con.is_connected():
+            mycursor.close()
+            con.close()
+
+def update_game():
+    try:
+        con = mysql.connect(host="localhost", user="root", port="3306", password="1234", database="game")
+        mycursor = con.cursor()
+
+        a = input("Enter product_id to update record: ")
+        b = input("Enter product_name: ")
+        c = input("Enter company: ")
+        d = input("Enter type: ")
+        e = input("Enter category: ")
+        f = int(input("Enter price: "))
+
+        query = "UPDATE gamestore SET product_name = %s, company = %s, type = %s, category = %s, price = %s WHERE product_id = %s"
+        data = (b, c, d, e, f, a)
+        mycursor.execute(query, data)
+
+        con.commit()
+    except mysql.Error as err:
+        print(f"Error: {err}")
+        con.rollback()
+    finally:
+        if con.is_connected():
+            mycursor.close()
+            con.close()
+
+def update_console():
+    try:
+        con = mysql.connect(host="localhost", user="root", port="3306", password="1234", database="game")
+        mycursor = con.cursor()
+
+        a = input("Enter product_id to update record: ")
+        b = input("Enter product_name: ")
+        c = input("Enter features: ")
+        d = input("Enter colours available: ")
+        e = input("Enter company: ")
+        f = int(input("Enter price: "))
+
+        query = "UPDATE console SET product_name = %s, features = %s, colours = %s, company = %s, price = %s WHERE product_id = %s"
+        data = (b, c, d, e, f, a)
+        mycursor.execute(query, data)
+
+        con.commit()
+    except mysql.Error as err:
+        print(f"Error: {err}")
+        con.rollback()
+    finally:
+        if con.is_connected():
+            mycursor.close()
+            con.close()
+
+# Main program loop
+exit_program = 'n'
+print("       /|       \t\t\t\t\t\t-----------------------------")
+print("      / |       \t\t\t\t\t\tWELCOME TO THE WORLD OF GAMING")
+print("    \ GAMES /   \t\t\t\t\t\t-----------------------------")
+print("     \\_____/     \t\t\t\t\t\tPLUG INTO CONTROLLER")
+print("\t\t\t\t\t\t\t        -----------------------------")
+
+while exit_program == 'n':
+    print("\nWHAT DO YOU WANT TO EXPLORE TODAY?")
+    print("ENTER G FOR GAMES")
+    print("ENTER C FOR CONSOLES")
+    choice = input("ENTER YOUR CHOICE: ").upper()
+
+    if choice == "G":
+        print("-" * 24)
+        print("PRESS 1 TO INSERT RECORD")
+        print("PRESS 2 TO UPDATE RECORD")
+        print("PRESS 3 TO DELETE RECORD")
+        print("PRESS 4 TO DISPLAY RECORDS")
+        print("PRESS 5 TO GO BACK")
+        print("-" * 24)
+
+        sub_choice = input("ENTER YOUR CHOICE: ")
+
+        if sub_choice == '1':
+            while True:
+                insert_into_game()
+                if input("DO YOU WANT TO INSERT MORE RECORDS (y/n): ").lower() != 'y':
+                    break
+        elif sub_choice == '2':
+            while True:
+                update_game()
+                if input("DO YOU WANT TO UPDATE MORE RECORDS (y/n): ").lower() != 'y':
+                    break
+        elif sub_choice == '3':
+            while True:
+                delete_from_game()
+                if input("DO YOU WANT TO DELETE MORE RECORDS (y/n): ").lower() != 'y':
+                    break
+        elif sub_choice == '4':
+            display_from_game()
+        elif sub_choice == '5':
+            continue # Go back to the main menu
+        else:
+            print("CHOOSE THE CORRECT OPTION!")
+
+    elif choice == "C":
+        print("-" * 24)
+        print("PRESS 1 TO INSERT RECORD")
+        print("PRESS 2 TO UPDATE RECORD")
+        print("PRESS 3 TO DELETE RECORD")
+        print("PRESS 4 TO DISPLAY RECORDS")
+        print("PRESS 5 TO GO BACK")
+        print("-" * 24)
+
+        sub_choice = input("ENTER YOUR CHOICE: ")
+
+        if sub_choice == '1':
+            while True:
+                insert_into_console()
+                if input("DO YOU WANT TO INSERT MORE RECORDS (y/n): ").lower() != 'y':
+                    break
+        elif sub_choice == '2':
+            while True:
+                update_console()
+                if input("DO YOU WANT TO UPDATE MORE RECORDS (y/n): ").lower() != 'y':
+                    break
+        elif sub_choice == '3':
+            while True:
+                delete_from_console()
+                if input("DO YOU WANT TO DELETE MORE RECORDS (y/n): ").lower() != 'y':
+                    break
+        elif sub_choice == '4':
+            display_from_console()
+        elif sub_choice == '5':
+            continue # Go back to the main menu
+        else:
+            print("CHOOSE THE CORRECT OPTION!")
+
+    exit_program = input("DO YOU WISH TO EXIT (y/n): ").lower()
+
+print("THANKS FOR VISITING, HOPE YOU HAVE A VICTORY DAY AHEAD!")
